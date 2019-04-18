@@ -29,16 +29,18 @@ void __stdcall main_thread() {
 	push_address("render manager", memory::pattern_scan("\x33\xdb\x48\x89\x05\x00\x00\x00\x00\xba\x00\x00\x00\x00", "xxxxx????x????") + 0x5);
 	push_address("game manager", memory::pattern_scan("\x48\x8b\x05\x00\x00\x00\x00\x8b\x8e", "xxx????xx") + 0x3);
 	push_address("interface manager", memory::pattern_scan("\x48\x8b\x0d\x00\x00\x00\x00\x48\x8d\x55\x87", "xxx????xxxx") + 0x3);
-	push_address("status manager", memory::pattern_scan("\x48\x8b\x0d\x00\x00\x00\x00\x41\xb0\x01\xe8\x00\x00\x00\x00\x48\x8b\x4b\x30\x48\xc7\x43", "xxx????xxxx????xxxxxxx") + 0x3);
-	push_address("environment area manager", memory::pattern_scan("\x48\x8b\x0d\x00\x00\x00\x00\x48\x8b\xd7\xe8\x00\x00\x00\x00\x48\x85\xc0\x74\x46", "xxx????xxxx????xxxxx") + 0x3);
-	push_address("network manager", memory::pattern_scan("\x48\x8b\x3d\x00\x00\x00\x00\x48\x85\xff\x0f\x84\x00\x00\x00\x00\x48\x8b\xbf", "xxx????xxxxx????xxx") + 0x3);
+	push_address("status manager", memory::pattern_scan("\x48\x8b\x2d\x00\x00\x00\x00\x48\x8b\x56\x18", "xxx????xxxx") + 0x3);
+	push_address("environment area manager", memory::pattern_scan("\x48\x8b\x1d\x00\x00\x00\x00\x48\x8b\xea\x48\x8b\xd1", "xxx????xxxxxx") + 0x3);
+	push_address("network manager", memory::pattern_scan("\xe8\x00\x00\x00\x00\x48\x85\xc0\x74\x18\x48\x8b\x4e\x28", "x????xxxxxxxxx") + 0x3);
 	push_address("graphics manager", memory::pattern_scan("\x48\x8b\x05\x00\x00\x00\x00\x48\x8d\x0d\x00\x00\x00\x00\x45\x33\xc0\xc7\x80", "xxx????xxx????xxxxx") + 0x3);
+	push_address("playermarkercomponent vtable index", memory::pattern_scan("\x4c\x8d\x0d\x00\x00\x00\x00\x48\x00\x00\x00\x48\x8d\x8b\x00\x00\x00\x00\x4c\x00\x00\x48\x8d\x00\x00\x00\x00\x00\xe8\x00\x00\x00\x00", "xxx????x???xxx????x??xx?????x????") + 0x3);
 }
 
 bool __stdcall DllMain(HMODULE module_entry, std::uint32_t call_reason, void*) {
-	if (call_reason == DLL_PROCESS_ATTACH) {
+	if (call_reason == DLL_PROCESS_ATTACH) 
 		return CreateThread(nullptr, 0, reinterpret_cast<LPTHREAD_START_ROUTINE>(main_thread), nullptr, 0, nullptr) != INVALID_HANDLE_VALUE;
-	} else { return false; }
+	 else 
+		return false; 
 
     return true;
 }
